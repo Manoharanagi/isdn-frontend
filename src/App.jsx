@@ -21,6 +21,8 @@ import DeliveryDashboard from './components/delivery/DeliveryDashboard';
 import DriverManagement from './components/drivers/DriverManagement';
 import DriverDashboard from './components/driver/DriverDashboard';
 import DeliveryDetailView from './components/driver/DeliveryDetailView';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancel from './pages/PaymentCancel';
 
 function App() {
     return (
@@ -118,6 +120,9 @@ function App() {
                                         <DeliveryDetailView />
                                     </ProtectedRoute>
                                 } />
+
+                                <Route path="/payment/success" element={<PaymentSuccess />} />
+                                <Route path="/payment/cancel" element={<PaymentCancel />} />
                             </Routes>
                         </main>
                         <Footer />

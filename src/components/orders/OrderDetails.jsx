@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as orderService from '../../services/orderService';
+import { BACKEND_URL } from '../../services/api';
 import Loader from '../common/Loader';
+import PayHerePayment from '../payment/PayHerePayment';
 
 export default function OrderDetails() {
     const { id } = useParams();
@@ -62,6 +64,15 @@ export default function OrderDetails() {
 
     const canCancelOrder = (status) => {
         return status === 'PENDING' || status === 'CONFIRMED';
+    };
+
+    const showPaymentButton = () => {
+        return order?.paymentMethod === 'ONLINE_PAYMENT' && order?.status === 'PENDING';
+    };
+
+    const handlePaymentError = (err) => {
+        console.error('Payment error:', err);
+        toast.error(err.response?.data?.message || 'Payment failed');
     };
 
     if (loading) return <Loader />;
@@ -135,13 +146,27 @@ export default function OrderDetails() {
                     </div>
                 )}
 
-                {canCancelOrder(order.status) && (
-                    <button
-                        onClick={handleCancelOrder}
-                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
-                    >
-                        Cancel Order
-                    </button>
+                <div className="flex flex-wrap gap-4">
+                    {canCancelOrder(order.status) && (
+                        <button
+                            onClick={handleCancelOrder}
+                            className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                        >
+                            Cancel Order
+                        </button>
+                    )}
+                </div>
+
+                {showPaymentButton() && (
+                    <div className="mt-6 pt-6 border-t">
+                        <h3 className="font-semibold text-gray-900 mb-4">Complete Payment</h3>
+                        <div className="max-w-sm">
+                            <PayHerePayment
+                                orderId={order.orderId}
+                                onError={handlePaymentError}
+                            />
+                        </div>
+                    </div>
                 )}
             </div>
 
@@ -151,12 +176,14 @@ export default function OrderDetails() {
                 <div className="space-y-4">
                     {order.items.map(item => (
                         <div key={item.orderItemId} className="flex items-center gap-4 pb-4 border-b last:border-b-0">
-                            <img
-                                src={item.productImage || '/placeholder-product.png'}
-                                alt={item.productName}
-                                className="w-20 h-20 object-cover rounded"
-                                onError={(e) => e.target.src = '/placeholder-product.png'}
-                            />
+                            <div className="w-20 h-20 bg-gray-50 rounded-lg p-2 flex-shrink-0">
+                                <img
+                                    src={item.productImage ? `${BACKEND_URL}${item.productImage}` : '/placeholder-product.png'}
+                                    alt={item.productName}
+                                    className="w-full h-full object-contain"
+                                    onError={(e) => e.target.src = '/placeholder-product.png'}
+                                />
+                            </div>
                             <div className="flex-1">
                                 <h4 className="font-semibold text-gray-900">{item.productName}</h4>
                                 <p className="text-sm text-gray-500">SKU: {item.productSku}</p>

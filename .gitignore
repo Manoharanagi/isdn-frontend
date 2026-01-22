@@ -8,6 +8,9 @@
 .env
 .env.local
 .env.production
+.env
+.env.*
+
 
 # Node / Vite folders
 node_modules/
@@ -21,11 +24,11 @@ dist/
 .DS_Store
 
 # Generated markdowns you don't want
-FEATURE3*.md
-FEATURE4*.md
-FEATURE6*.md
-FEATURE65*.md
-GENERATE_PWA_ICONS.md
-DRIVER_INTERFACE_TESTING_GUIDE.md
-PWA_CONVERSION_GUIDE.md
-PWA_SETUP_COMPLETE.md
+# FEATURE3*.md
+# FEATURE4*.md
+# FEATURE6*.md
+# FEATURE65*.md
+# GENERATE_PWA_ICONS.md
+# DRIVER_INTERFACE_TESTING_GUIDE.md
+# PWA_CONVERSION_GUIDE.md
+# PWA_SETUP_COMPLETE.md

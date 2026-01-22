@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BACKEND_URL } from '../../services/api';
 
 export default function CartItem({ item, onUpdate, onRemove }) {
     const [quantity, setQuantity] = useState(item.quantity);
@@ -28,12 +29,14 @@ export default function CartItem({ item, onUpdate, onRemove }) {
 
     return (
         <div className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-lg">
-            <img
-                src={item.productImage || '/placeholder-product.png'}
-                alt={item.productName}
-                className="w-24 h-24 object-cover rounded"
-                onError={(e) => e.target.src = '/placeholder-product.png'}
-            />
+            <div className="w-24 h-24 bg-gray-50 rounded-lg p-2 flex-shrink-0">
+                <img
+                    src={item.productImage ? `${BACKEND_URL}${item.productImage}` : '/placeholder-product.png'}
+                    alt={item.productName}
+                    className="w-full h-full object-contain"
+                    onError={(e) => e.target.src = '/placeholder-product.png'}
+                />
+            </div>
 
             <div className="flex-1">
                 <h3 className="text-lg font-semibold text-gray-900">

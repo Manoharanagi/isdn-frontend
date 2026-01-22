@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as productService from '../../services/productService';
 import { useCart } from '../../context/CartContext';
+import { BACKEND_URL } from '../../services/api';
 import Loader from '../common/Loader';
 
 export default function ProductDetails() {
@@ -69,11 +70,11 @@ export default function ProductDetails() {
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
+                <div className="bg-gray-50 rounded-xl p-6 flex items-center justify-center">
                     <img
-                        src={product.imageUrl || '/placeholder-product.png'}
+                        src={product.imageUrl ? `${BACKEND_URL}${product.imageUrl}` : '/placeholder-product.png'}
                         alt={product.name}
-                        className="w-full rounded-lg shadow-lg"
+                        className="max-w-full max-h-96 object-contain rounded-lg"
                         onError={(e) => e.target.src = '/placeholder-product.png'}
                     />
                 </div>

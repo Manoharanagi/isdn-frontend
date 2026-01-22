@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { BACKEND_URL } from '../../services/api';
 
 export default function ProductCard({ product }) {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="relative h-48 bg-gray-200">
+            <div className="relative aspect-square bg-gray-50 p-4">
                 <img
-                    src={product.imageUrl || '/placeholder-product.png'}
+                    src={product.imageUrl ? `${BACKEND_URL}${product.imageUrl}` : '/placeholder-product.png'}
                     alt={product.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
                     onError={(e) => {
                         e.target.src = '/placeholder-product.png';
                     }}
